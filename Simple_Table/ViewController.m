@@ -26,7 +26,9 @@
     //Table View configuration
     self.myTable.dataSource = self;
     self.myTable.delegate = self;
-//    self.myTable.editing = YES;
+    self.myTable.sectionIndexColor = [UIColor magentaColor];
+    
+    self.navigationItem.title = @"Specific Title";
 
     
 }
@@ -53,6 +55,7 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     
     cell.textLabel.text = [self.myArray objectAtIndex:indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
@@ -76,7 +79,7 @@
 }
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return NO;
+    return YES;
 }
 //height configuration
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,6 +93,23 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return UITableViewAutomaticDimension;
+}
+//Selection
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //;
+    
+    if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
+    {
+        [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    }
+    else [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
+    
+}
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
 }
 //Section index methods
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
@@ -109,5 +129,20 @@
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0)
 {
     return @"Mica";
+}
+- (IBAction)editButton:(UIBarButtonItem *)sender
+{
+    if ([sender.title isEqualToString:@"Edit"])
+    {
+    self.myTable.editing = YES;
+    sender.style = UIBarButtonItemStyleDone;
+    [sender setTitle:@"Done"];
+    }
+    else
+    {
+    self.myTable.editing = NO;
+    sender.style = UIBarButtonItemStyleBordered;
+    sender.title = @"Edit";
+    }
 }
 @end

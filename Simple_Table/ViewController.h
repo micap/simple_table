@@ -10,5 +10,7 @@
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTable;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
+- (IBAction)editButton:(UIBarButtonItem *)sender;
 @end
